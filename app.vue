@@ -1,3 +1,40 @@
+<script lang="ts" setup>
+
+enum Gender {
+  GIRL = 'Girl',
+  BOY = 'Boy',
+  UNISEX = 'Unisex'
+}
+enum Popularity {
+  TRENDY = 'Trendy',
+  UNIQUE = 'Unique'
+}
+enum nameLength {
+  LONG = 'Long',
+  ALL = 'All',
+  SHORT = 'Short'
+}
+
+interface OptionsState {
+  gender: Gender;
+  popularity: Popularity;
+  length: nameLength
+}
+
+const obj: OptionsState = {
+  gender: Gender.GIRL,
+  popularity: Popularity.TRENDY,
+  length: nameLength.LONG
+}
+
+import {reactive} from "vue"
+const options = reactive({
+  gender: "Girl",
+  popularity: "Trendy",
+  length: "Long"
+})
+</script>
+
 <template>
   <div class="container">
     <h1>Baby Name Generator</h1>
@@ -6,45 +43,61 @@
       <div class="option-container">
         <h4>1) Choose a gender</h4>
         <div class="option-buttons">
-          <button class="option option-left">Boy</button>
-          <button class="option">Unisex</button>
+          <button
+              :class="options.gender === 'Boy' && 'option-active'"
+              class="option option-left"
+          >Boy</button>
+          <button
+              :class="options.gender === 'Unisex' && 'option-active'"
+              class="option"
+          >Unisex</button>
           <button
               :class="options.gender === 'Girl' && 'option-active'"
-              class="option option-right">Girl</button>
+              class="option option-right"
+          >Girl</button>
         </div>
       </div>
       <div class="option-container">
         <h4>2) Choose the names popularity</h4>
         <div class="option-buttons">
-          <button class="option option-left">Trendy</button>
-          <button class="option option-right">Unique</button>
+          <button
+              :class="options.popularity === 'Trendy' && 'option-active'"
+              class="option option-left"
+          >Trendy</button>
+          <button
+              :class="options.popularity === 'Unique' && 'option-active'"
+              class="option option-right"
+          >Unique</button>
         </div>
       </div>
       <div class="option-container">
         <h4>2) Choose names length</h4>
         <div class="option-buttons">
-          <button class="option option-left">Long</button>
-          <button class="option" >All</button>
-          <button class="option option-right" >Short</button>
+          <button
+              :class="options.length === 'Long' && 'option-active'"
+              class="option option-left"
+          >Long</button>
+          <button
+              :class="options.length === 'All' && 'option-active'"
+              class="option"
+          >All</button>
+          <button
+              :class="options.length === 'Short' && 'option-active'"
+              class="option option-right"
+          >Short</button>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
- const options = reactive({
-   gender: "Girl",
-   popularity: "Unique",
-   length: "Short"
- })
-</script>
-
 <style scoped lang="scss">
 .container{
+  height: 1000px;
+  background-color: rgba(126, 126, 127, 0.99);
   font-family: Arial, SansSerif ;
   color: rgb(27, 60, 138);
-  max-width: 50rem;
+  max-width: 100rem;
   margin: 0 auto;
   text-align: center;
   h1{
@@ -57,13 +110,8 @@
     background-color: rgb(255, 238, 236);
     border-radius: 2rem;
     padding: 1rem;
-    width: 95%;
-    margin: 4rem 0  auto;
-  }
-  button:hover{
-    background: rgb(2,0,36);
-    background: linear-gradient(277deg, rgba(2,0,36,1) 0%, rgba(9,9,121,0.9489559164733179) 28%, rgba(0,212,255,1) 100%);
-    color: yellow;
+    width: 70%;
+    margin:0  auto;
   }
   .option{
     background-color: whitesmoke;
@@ -81,13 +129,8 @@
   .option-right{
     border-radius: 0 1rem 1rem 0;
   }
-  button:active{
-    background: rgb(2,0,36);
-    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(9,9,121,0.9489559164733179) 28%, rgba(0,212,255,1) 100%);
-    color: yellow;
-  }
-  .option-active {
-    background-color: rgb(247, 76, 80);
+  .option-active{
+    background-color: darkred;
     color: white;
   }
 }

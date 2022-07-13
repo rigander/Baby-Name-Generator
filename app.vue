@@ -1,38 +1,21 @@
 <script lang="ts" setup>
 
-enum Gender {
-  GIRL = 'Girl',
-  BOY = 'Boy',
-  UNISEX = 'Unisex'
-}
-enum Popularity {
-  TRENDY = 'Trendy',
-  UNIQUE = 'Unique'
-}
-enum nameLength {
-  LONG = 'Long',
-  ALL = 'All',
-  SHORT = 'Short'
-}
+import {Gender, Popularity, Length, names} from '@/data'
 
 interface OptionsState {
   gender: Gender;
   popularity: Popularity;
-  length: nameLength
-}
-
-const obj: OptionsState = {
-  gender: Gender.GIRL,
-  popularity: Popularity.TRENDY,
-  length: nameLength.LONG
+  length: Length;
 }
 
 import {reactive} from "vue"
-const options = reactive({
-  gender: "Girl",
-  popularity: "Trendy",
-  length: "Long"
+const options = reactive<OptionsState>({
+  gender: Gender.GIRL,
+  popularity: Popularity.TRENDY,
+  length: Length.LONG
 })
+const selectedNames = ref<string[]>([])
+
 </script>
 
 <template>
@@ -44,15 +27,18 @@ const options = reactive({
         <h4>1) Choose a gender</h4>
         <div class="option-buttons">
           <button
-              :class="options.gender === 'Boy' && 'option-active'"
+              :class="options.gender === Gender.BOY && 'option-active'"
+              @click="options.gender = Gender.BOY"
               class="option option-left"
           >Boy</button>
           <button
-              :class="options.gender === 'Unisex' && 'option-active'"
+              :class="options.gender === Gender.UNISEX && 'option-active'"
+              @click="options.gender = Gender.UNISEX"
               class="option"
           >Unisex</button>
           <button
-              :class="options.gender === 'Girl' && 'option-active'"
+              :class="options.gender === Gender.GIRL && 'option-active'"
+              @click="options.gender = Gender.GIRL"
               class="option option-right"
           >Girl</button>
         </div>
@@ -61,37 +47,56 @@ const options = reactive({
         <h4>2) Choose the names popularity</h4>
         <div class="option-buttons">
           <button
-              :class="options.popularity === 'Trendy' && 'option-active'"
+              :class="options.popularity === Popularity.TRENDY && 'option-active'"
+              @click="options.popularity = Popularity.TRENDY"
               class="option option-left"
           >Trendy</button>
           <button
-              :class="options.popularity === 'Unique' && 'option-active'"
+              :class="options.popularity === Popularity.UNIQUE && 'option-active'"
+              @click="options.popularity = Popularity.UNIQUE"
               class="option option-right"
           >Unique</button>
         </div>
       </div>
       <div class="option-container">
-        <h4>2) Choose names length</h4>
+        <h4>3) Choose names length</h4>
         <div class="option-buttons">
           <button
-              :class="options.length === 'Long' && 'option-active'"
+              :class="options.length === Length.LONG && 'option-active'"
+              @click="options.length = Length.LONG"
               class="option option-left"
           >Long</button>
           <button
-              :class="options.length === 'All' && 'option-active'"
+              :class="options.length === Length.ALL && 'option-active'"
+              @click="options.length = Length.ALL"
               class="option"
           >All</button>
           <button
-              :class="options.length === 'Short' && 'option-active'"
+              :class="options.length === Length.SHORT && 'option-active'"
+              @click="options.length = Length.SHORT"
               class="option option-right"
           >Short</button>
         </div>
       </div>
+      <button
+          class="primary"
+      >Find Names</button>
     </div>
+    {{ selectedNames }}
   </div>
 </template>
 
 <style scoped lang="scss">
+.primary{
+  background-color: yellowgreen;
+  color:whitesmoke;
+  border-radius: 6px;
+  border: none;
+  padding: 0.75rem 4rem;
+  margin: 2rem 0 1rem;
+  cursor: pointer;
+  font-size: 23px;
+}
 .container{
   height: 1000px;
   background-color: rgba(126, 126, 127, 0.99);
@@ -130,7 +135,7 @@ const options = reactive({
     border-radius: 0 1rem 1rem 0;
   }
   .option-active{
-    background-color: darkred;
+    background-color: #9dcb1d;
     color: white;
   }
 }

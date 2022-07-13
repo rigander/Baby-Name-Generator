@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 
-import {Gender, Popularity, Length, names} from '@/data'
+import {Gender, Length, names, Popularity} from '@/data'
+import {reactive, ref} from "vue"
 
 interface OptionsState {
   gender: Gender;
@@ -8,12 +9,25 @@ interface OptionsState {
   length: Length;
 }
 
-import {reactive} from "vue"
 const options = reactive<OptionsState>({
   gender: Gender.GIRL,
   popularity: Popularity.TRENDY,
   length: Length.LONG
 })
+
+const computeSelectedNames = () => {
+  const filteredNames = names
+      .filter((name) => name.gender === options.gender)
+      .filter((name) => name.popularity === options.popularity)
+      .filter((name) => {
+        if(options.length === Length.ALL) return true
+        else return name.length === options.length
+      })
+
+      selectedNames.value = filteredNames.map(name => name.name);
+
+}
+
 const selectedNames = ref<string[]>([])
 
 </script>
@@ -79,14 +93,37 @@ const selectedNames = ref<string[]>([])
         </div>
       </div>
       <button
+          @click="computeSelectedNames"
           class="primary"
       >Find Names</button>
     </div>
-    {{ selectedNames }}
+    <div class="result">
+      <div class="founded-names">{{ selectedNames }}</div></div>
   </div>
 </template>
 
 <style scoped lang="scss">
+.result{
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding-top: 2rem;
+  margin: 0 auto;
+  height: 100px;
+  width: 700px;
+  border: none;
+  border-radius:0 0 2rem 2rem;
+  background-color: #fbeceb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.founded-names{
+  width: 500px;
+  background-color: #dbd9da;
+  border: 2px solid #2e7eb4;
+  border-radius: 1rem;
+  padding: 0.5rem;
+}
 .primary{
   background-color: yellowgreen;
   color:whitesmoke;

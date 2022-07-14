@@ -260,10 +260,66 @@ export const names: Name[] = [
 
     {
         id: 34,
-        name: "Teri",
-        gender: Gender.UNISEX,
+        name: "Nastya",
+        gender: Gender.GIRL,
         popularity: Popularity.TRENDY,
         length: Length.SHORT,
+    },
+    {
+        id: 35,
+        name: "Alice",
+        gender: Gender.GIRL,
+        popularity: Popularity.UNIQUE,
+        length: Length.SHORT,
+    },
+    {
+        id: 36,
+        name: "Aliska",
+        gender: Gender.GIRL,
+        popularity: Popularity.UNIQUE,
+        length: Length.SHORT,
+    },
+    {
+        id: 37,
+        name: "Alicia",
+        gender: Gender.GIRL,
+        popularity: Popularity.UNIQUE,
+        length: Length.SHORT,
+    },
+    {
+        id: 38,
+        name: "Alisa",
+        gender: Gender.GIRL,
+        popularity: Popularity.UNIQUE,
+        length: Length.SHORT,
+    },
+    {
+        id: 39,
+        name: "Alya",
+        gender: Gender.GIRL,
+        popularity: Popularity.UNIQUE,
+        length: Length.SHORT,
+    },
+    {
+        id: 40,
+        name: "Liska",
+        gender: Gender.GIRL,
+        popularity: Popularity.UNIQUE,
+        length: Length.SHORT,
+    },
+    {
+        id: 41,
+        name: "Anastasiia",
+        gender: Gender.GIRL,
+        popularity: Popularity.TRENDY,
+        length: Length.LONG,
+    },
+    {
+        id: 42,
+        name: "Nastusha",
+        gender: Gender.GIRL,
+        popularity: Popularity.TRENDY,
+        length: Length.LONG,
     },
 ];
 

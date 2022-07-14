@@ -2,19 +2,18 @@
 
 import {Gender, Length, names, Popularity} from '@/data'
 import {reactive, ref} from "vue"
+import Option from "~/components/Option.vue";
 
 interface OptionsState {
   gender: Gender;
   popularity: Popularity;
   length: Length;
 }
-
 const options = reactive<OptionsState>({
   gender: Gender.GIRL,
   popularity: Popularity.TRENDY,
   length: Length.LONG
 })
-
 const computeSelectedNames = () => {
   const filteredNames = names
       .filter((name) => name.gender === options.gender)
@@ -27,8 +26,31 @@ const computeSelectedNames = () => {
       selectedNames.value = filteredNames.map(name => name.name);
 
 }
+const selectedNames = ref<string[]>([]);
 
-const selectedNames = ref<string[]>([])
+const removeName = (index: number) => {
+  const filteredNames = [...selectedNames.value]
+  filteredNames.splice(index,1)
+  selectedNames.value = filteredNames
+}
+
+const optionsArray =[
+  {
+    title: "1) Choose a gender",
+    category: "gender",
+    buttons: [Gender.GIRL, Gender.BOY, Gender.UNISEX]
+  },
+  {
+    title: "2) Choose the names popularity",
+    category: "popularity",
+    buttons: [Popularity.TRENDY, Popularity.UNIQUE]
+  },
+  {
+    title: "3) Choose name's length",
+    category: "length",
+    buttons: [Length.LONG, Length.SHORT, Length.ALL]
+  }
+]
 
 </script>
 
@@ -37,72 +59,43 @@ const selectedNames = ref<string[]>([])
     <h1>Baby Name Generator</h1>
     <p>Choose your options and click the "Find Names" button below</p>
     <div class="options-container">
-      <div class="option-container">
-        <h4>1) Choose a gender</h4>
-        <div class="option-buttons">
-          <button
-              :class="options.gender === Gender.BOY && 'option-active'"
-              @click="options.gender = Gender.BOY"
-              class="option option-left"
-          >Boy</button>
-          <button
-              :class="options.gender === Gender.UNISEX && 'option-active'"
-              @click="options.gender = Gender.UNISEX"
-              class="option"
-          >Unisex</button>
-          <button
-              :class="options.gender === Gender.GIRL && 'option-active'"
-              @click="options.gender = Gender.GIRL"
-              class="option option-right"
-          >Girl</button>
-        </div>
-      </div>
-      <div class="option-container">
-        <h4>2) Choose the names popularity</h4>
-        <div class="option-buttons">
-          <button
-              :class="options.popularity === Popularity.TRENDY && 'option-active'"
-              @click="options.popularity = Popularity.TRENDY"
-              class="option option-left"
-          >Trendy</button>
-          <button
-              :class="options.popularity === Popularity.UNIQUE && 'option-active'"
-              @click="options.popularity = Popularity.UNIQUE"
-              class="option option-right"
-          >Unique</button>
-        </div>
-      </div>
-      <div class="option-container">
-        <h4>3) Choose names length</h4>
-        <div class="option-buttons">
-          <button
-              :class="options.length === Length.LONG && 'option-active'"
-              @click="options.length = Length.LONG"
-              class="option option-left"
-          >Long</button>
-          <button
-              :class="options.length === Length.ALL && 'option-active'"
-              @click="options.length = Length.ALL"
-              class="option"
-          >All</button>
-          <button
-              :class="options.length === Length.SHORT && 'option-active'"
-              @click="options.length = Length.SHORT"
-              class="option option-right"
-          >Short</button>
-        </div>
+      <Option
+          v-for="option in optionsArray"
+          :key="option.title"
+          :option="option"
+          :options="options"
+      />
       </div>
       <button
           @click="computeSelectedNames"
           class="primary"
       >Find Names</button>
+    <div class="cards-container">
+    <CardName
+        v-for="(name, index) in selectedNames"
+        :key="name"
+        :name="name"
+        @remove="() => removeName(index)"
+        :index="index"
+    />
     </div>
-    <div class="result">
-      <div class="founded-names">{{ selectedNames }}</div></div>
   </div>
 </template>
 
 <style scoped lang="scss">
+.cards-container{
+  display: flex;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.card h4{
+  margin: 0;
+  padding: 0;
+}
+
+
 .result{
   font-size: 1.4rem;
   font-weight: bold;
@@ -155,26 +148,7 @@ const selectedNames = ref<string[]>([])
     width: 70%;
     margin:0  auto;
   }
-  .option{
-    background-color: whitesmoke;
-    outline: 0.15rem solid rosybrown;
-    border: none;
-    padding: 0.75rem;
-    width: 12rem;
-    font-size: 1.4rem;
-    font-weight: bold;
-    color: blue;
-  }
-  .option-left{
-    border-radius: 1rem 0 0 1rem;
-  }
-  .option-right{
-    border-radius: 0 1rem 1rem 0;
-  }
-  .option-active{
-    background-color: #9dcb1d;
-    color: white;
-  }
+
 }
 
 </style>
